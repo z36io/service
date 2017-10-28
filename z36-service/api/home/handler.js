@@ -1,11 +1,12 @@
 var lib = require('../../lib/template.js');
 
 module.exports.hello = (event, context, callback) => {
-  const response = {
+  var response = {
     statusCode: 200,
     body: JSON.stringify({
       message: lib.message,
-      input: event,
+      event: event,
+      context: context
     }),
   };
 
