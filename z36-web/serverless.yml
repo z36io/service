@@ -1,0 +1,47 @@
+service: z36-web
+
+plugins:
+  - serverless-domain-manager
+  
+provider:
+  name: aws
+  region: us-east-2
+  runtime: nodejs6.10
+  memorySize: ${self:custom.memorySize}
+  timeout: ${self:custom.timeout}
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: slsdev
+  apiKeys:
+    - dev-web
+  environment:
+    token: ${ssm:dev-token}
+  
+custom:
+  memorySize: 128
+  timeout: 10
+  defaultStage: dev
+  dev:
+    profile: slsdev
+    private: true
+    domain: 'dev.z36.io'
+  prod:
+    profile: slsprod
+    private: false
+    domain: 'z36.io'
+  private: ${self:custom.${self:provider.stage}.private}
+  customDomain:
+    basePath: ''
+    domainName: ${self:custom.${self:provider.stage}.domain}
+    stage: ${self:provider.stage}
+  bucket: ${self:provider.stage}-z36-bucket
+
+functions:
+  hello:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: index/handler.hello
+    events:
+      - http:
+          path: /
+          method: get
+          private: ${self:custom.private}

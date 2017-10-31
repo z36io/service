@@ -1,4 +1,4 @@
-service: z36-service
+service: z36-api
 
 plugins:
   - serverless-domain-manager
@@ -12,7 +12,7 @@ provider:
   stage: ${opt:stage, self:custom.defaultStage}
   profile: slsdev
   apiKeys:
-    - dev
+    - dev-api
   environment:
     token: ${ssm:dev-token}
   
@@ -23,11 +23,11 @@ custom:
   dev:
     profile: slsdev
     private: true
-    domain: 'dev.z36.io'
+    domain: 'dev.api.z36.io'
   prod:
     profile: slsprod
     private: false
-    domain: 'z36.io'
+    domain: 'api.z36.io'
   private: ${self:custom.${self:provider.stage}.private}
   customDomain:
     basePath: ''
@@ -39,9 +39,9 @@ functions:
   hello:
     memorySize: ${self:custom.memorySize}
     timeout: ${self:custom.timeout}
-    handler: api/home/handler.hello
+    handler: main/handler.hello
     events:
       - http:
           path: /
           method: get
-          private: ${self:custom.private}
+          private: false

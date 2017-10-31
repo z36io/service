@@ -1,0 +1,13 @@
+{
+  "name": "z36.io",
+  "version": "0.0.1",
+  "description": "Krypton",
+  "repository": "https://github.com/z36io",
+  "author": "Dima Kostrub",
+  "devDependencies": {
+    "serverless-domain-manager": "^1.1.15"
+  },
+  "dependencies": {
+    "basic-auth": "^2.0.0"
+  }
+}
