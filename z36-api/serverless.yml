@@ -23,7 +23,7 @@ custom:
   dev:
     profile: slsdev
     private: true
-    domain: 'dev.api.z36.io'
+    domain: 'dev-api.z36.io'
   prod:
     profile: slsprod
     private: false
@@ -39,7 +39,7 @@ functions:
   hello:
     memorySize: ${self:custom.memorySize}
     timeout: ${self:custom.timeout}
-    handler: main/handler.hello
+    handler: index/handler.hello
     events:
       - http:
           path: /
