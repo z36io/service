@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title My Site - #{title}
+    block _meta
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons')
+    link(rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.css')
+    style
+      include ../app/app.css
+      block _styles
+  body(ng-app='app' layout='column' ng-cloak)
+    block _content
+    block _footer
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angular_material/1.1.4/angular-material.min.js')
+    script
+      include ../app/app.js
+    block _scripts
+    

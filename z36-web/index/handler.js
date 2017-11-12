@@ -1,8 +1,11 @@
-var lib = require('../lib/template.js');
 var pug = require('pug');
 
 module.exports.hello = (event, context, callback) => {
-  var html = pug.renderFile(__dirname + '/template.pug', { name: lib.message });
+  var i18n = require('./i18n.json').en;
+  var html = pug.renderFile(__dirname + '/template.pug', {
+    title: 'z36.io',
+    slogan: i18n.slogan
+  });
   var response = {
     statusCode: 200,
     headers: {

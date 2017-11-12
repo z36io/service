@@ -1,0 +1,40 @@
+.c {
+    color: #2196F3;
+}
+
+.c--f {
+    color: #ffffff;
+}
+
+.c--r {
+    color: red;
+}
+
+
+.b-c {
+    background-color: #2196F3;
+}
+
+.br-c {
+    border-color: #2196F3;  
+}
+
+.d-i-b {
+    display: inline-block;
+}
+
+.t-a-c {
+    text-align: center;
+}
+
+.p-5 {
+    padding: 5px;
+}
+
+.f-s-15 {
+    font-size: 15px;
+}
+
+.f-s-30 {
+    font-size: 30px;
+}

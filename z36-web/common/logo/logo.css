@@ -1,0 +1,19 @@
+.z36-logo>.icon {
+    height: 50px;
+    width: 50px;
+    margin: 7px;
+    padding: 7px;
+    border-radius: 10px;
+    border: 1px solid;
+    box-shadow: 3px 3px 3px 0px;
+}
+
+.z36-logo>.icon>.z {
+    text-align: left;
+    font-style: italic;
+}
+
+.z36-logo>.icon>.k {
+    text-align: right;
+    font-weight: bold;
+}

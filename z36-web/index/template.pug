@@ -1,1 +1,19 @@
-p #{name}'s Pug source code!
+extends ../common/app/app.pug
+include ../common/logo/logo.pug
+include ../common/footer/footer.pug
+
+block _styles
+    include ../common/logo/logo.css
+    include ../common/footer/footer.css
+    include style.css
+
+block _content
+    div.index(flex)
+        md-toolbar
+        +logo
+        
+        div= slogan
+            
+block _footer
+    +footer
+    

@@ -34,6 +34,11 @@ custom:
     domainName: ${self:custom.${self:provider.stage}.domain}
     stage: ${self:provider.stage}
   bucket: ${self:provider.stage}-z36-bucket
+  
+package:
+  include:
+    - common/**/*.*
+    - index/**/*.*
 
 functions:
   hello:
