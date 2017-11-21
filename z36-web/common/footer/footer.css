@@ -1,3 +1,7 @@
 .z36-footer {
-    min-height: 100px;
+    padding: 25px 0;
+}
+
+.z36-footer .icon {
+    padding: 0 5px;
 }
