@@ -11,8 +11,7 @@ provider:
   timeout: ${self:custom.timeout}
   stage: ${opt:stage, self:custom.defaultStage}
   profile: slsdev
-  apiKeys:
-    - dev-web
+  apiKeys: ${self:custom.${self:provider.stage}.apiKeys}
   environment:
     token: ${ssm:dev-token}
   
@@ -22,10 +21,14 @@ custom:
   defaultStage: dev
   dev:
     profile: slsdev
+    apiKeys:
+      - dev-web
     private: true
     domain: 'dev.z36.io'
   prod:
     profile: slsprod
+    apiKeys:
+      - prod-web
     private: false
     domain: 'z36.io'
   private: ${self:custom.${self:provider.stage}.private}
