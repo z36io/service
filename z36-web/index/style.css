@@ -5,5 +5,22 @@
 
 .index .transformations {
     padding: 10px;
-    height: 100px;
+}
+
+.index .card {
+    width: 300px;
+}
+
+.index .card .img {
+    width: 200px;
+}
+
+.index .tech {
+    padding: 100px 0;
+}
+
+.index .tech .img {
+    vertical-align: middle;
+    width: 200px;
+    opacity: 0.1;
 }

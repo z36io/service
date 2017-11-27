@@ -2,20 +2,42 @@ extends ../common/app/app.pug
 include ../common/logo/logo.pug
 include ../common/footer/footer.pug
 
+mixin z36-card(title, icon)
+    md-card.card
+        md-card-title
+            span.md-headline= title
+        md-card-content.t-a-c(flex)
+            img.img(src=icon)
+        md-card-actions(layout='row' layout-align='end center')
+            md-button(ng-click='ctrl.cardAction(\'' + title + '\')' aria-label='Go')
+                i.fa.fa-magic.fa-2x.c.p-5
+
 block _styles
     include ../common/logo/logo.css
     include ../common/footer/footer.css
     include style.css
 
 block _content
-    div.index(flex)
+    div.index
         md-toolbar
+            div.md-toolbar-tools(layout='row' layout-align='end center')
+                md-button Home
+            
         +logo
         
         div.slogan.f-s-30.t-a-c.b-c.c--f= i18n.slogan
         
-        div.transformations Transformations Cards
+        div.transformations(layout="row" layout-wrap)
             
-block _footer
-    +footer
+            +z36-card('Paypal', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/pp.png')
+            +z36-card('Bitcoin', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/btc.png')
+                    
+        div.tech.t-a-c
+            img.img.m-5(src='https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/sls.png')
+            img.img.m-5(src='https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/aws.png')
+        
+        +footer
+    
+block _scripts
+    include controller.js
     

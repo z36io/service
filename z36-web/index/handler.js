@@ -1,9 +1,12 @@
 var pug = require('pug');
+var _ = require('lodash');
 
 module.exports.hello = (event, context, callback) => {
-  var i18n = require('./i18n.json').en;
+
+  var l = _.get(event, 'queryStringParameters.l') || 'en';
+  var i18nJSON = require('./i18n.json');
+  var i18n = i18nJSON[l] || i18nJSON.en;
   var html = pug.renderFile(__dirname + '/template.pug', {
-    title: i18n.title,
     i18n: i18n
   });
   var response = {

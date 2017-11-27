@@ -1,4 +1,6 @@
-z36.io
+# z36.io
 
-Deploy: serverless deploy -v
-Log: serverless logs -f <function_name>
+## Notes
+
++ Deploy: serverless deploy -v
++ Log: serverless logs -f <function_name>
