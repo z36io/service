@@ -1,0 +1,27 @@
+extends /components/app/app.pug
+include /components/logo/logo.pug
+include /components/footer/footer.pug
+include /components/card/card.pug
+include /components/toolbar/toolbar.pug
+include /components/tech/tech.pug
+
+block _styles
+    include /components/logo/logo.css
+    include /components/footer/footer.css
+    include /components/card/card.css
+    include /components/tech/tech.css
+    block __styles
+
+block _content
+    div.landing
+    
+        +toolbar
+        +logo
+        
+        block __content
+                    
+        +tech
+        +footer
+    
+block _scripts
+    block __scripts

@@ -1,0 +1,13 @@
+mixin card(title, icon, link)
+    md-card.card
+        md-card-title
+            span.md-headline= title
+        md-card-content.t-a-c(flex)
+            img.img(src=icon)
+        md-card-actions(layout='row' layout-align='end center')
+            if link
+                md-button(href=link aria-label='Go')
+                    i.fa.fa-magic.fa-2x.c.p-5
+            else
+                md-button(ng-click='ctrl.cardAction(\'' + title + '\')' aria-label='Go')
+                    i.fa.fa-magic.fa-2x.c.p-5

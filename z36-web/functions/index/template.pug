@@ -1,0 +1,18 @@
+extends /pages/landing/landing.pug
+
+block __styles
+    include style.css
+
+block __content
+    div.index
+        
+        div.slogan.f-s-30.t-a-c.b-c.c--f= i18n.slogan
+        
+        div.transformations(layout="row" layout-wrap)
+            
+            +card('Paypal', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/pp.png', '/paypal')
+            +card('Bitcoin', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/btc.png')
+                
+block __scripts
+    include controller.js
+    

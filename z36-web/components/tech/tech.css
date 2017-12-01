@@ -1,0 +1,9 @@
+.tech {
+    padding: 100px 0;
+}
+
+.tech .img {
+    vertical-align: middle;
+    width: 200px;
+    opacity: 0.1;
+}

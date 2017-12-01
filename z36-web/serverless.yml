@@ -40,16 +40,27 @@ custom:
   
 package:
   include:
-    - common/**/*.*
-    - index/**/*.*
+    - components/**/*.*
+    - functions/**/*.*
+    - pages/**/*.*
+    - services/**/*.*
 
 functions:
-  hello:
+  index:
     memorySize: ${self:custom.memorySize}
     timeout: ${self:custom.timeout}
-    handler: index/handler.hello
+    handler: functions/index/function.handler
     events:
       - http:
           path: /
+          method: get
+          private: ${self:custom.private}
+  paypal:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: functions/paypal/function.handler
+    events:
+      - http:
+          path: /paypal
           method: get
           private: ${self:custom.private}

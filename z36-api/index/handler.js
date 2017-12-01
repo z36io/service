@@ -1,4 +1,4 @@
-var lib = require('../common/template.js');
+var lib = require('../components/template.js');
 
 module.exports.hello = (event, context, callback) => {
   var response = {
