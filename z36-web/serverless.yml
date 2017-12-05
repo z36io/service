@@ -55,12 +55,12 @@ functions:
           path: /
           method: get
           private: ${self:custom.private}
-  paypal:
+  transform:
     memorySize: ${self:custom.memorySize}
     timeout: ${self:custom.timeout}
-    handler: functions/paypal/function.handler
+    handler: functions/transform/function.handler
     events:
       - http:
-          path: /paypal
+          path: /transform
           method: get
           private: ${self:custom.private}

@@ -1,4 +1,4 @@
-service: z36-api
+service: z36-db
 
 plugins:
   - serverless-domain-manager
@@ -12,9 +12,20 @@ provider:
   stage: ${opt:stage, self:custom.defaultStage}
   profile: slsdev
   apiKeys:
-    - dev-api
+    - dev-db
   environment:
     token: ${ssm:dev-token}
+    table_transformations: ${self:custom.tables.transformations}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.table_transformations}'
   
 custom:
   memorySize: 128
@@ -23,17 +34,19 @@ custom:
   dev:
     profile: slsdev
     private: true
-    domain: 'dev-api.z36.io'
+    domain: 'dev-db.z36.io'
   prod:
     profile: slsprod
     private: true
-    domain: 'api.z36.io'
+    domain: 'db.z36.io'
   private: ${self:custom.${self:provider.stage}.private}
   customDomain:
     basePath: ''
     domainName: ${self:custom.${self:provider.stage}.domain}
     stage: ${self:provider.stage}
   bucket: ${self:provider.stage}-z36-bucket
+  tables:
+    transformations: ${self:provider.stage}-transformations
 
 package:
   include:
