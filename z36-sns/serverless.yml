@@ -1,0 +1,80 @@
+service: z36-sns
+
+plugins:
+  - serverless-domain-manager
+  
+provider:
+  name: aws
+  region: us-east-2
+  runtime: nodejs6.10
+  memorySize: ${self:custom.memorySize}
+  timeout: ${self:custom.timeout}
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: slsdev
+  apiKeys:
+    - dev-sns
+  environment:
+    token: ${ssm:dev-token}
+    topic_created: ${self:custom.topics.created}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sns:Publish
+      Resource: '*'
+    - Effect: Allow
+      Action:
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:DescribeStream
+        - dynamodb:ListStreams
+      Resource: '*'
+  
+custom:
+  memorySize: 128
+  timeout: 10
+  defaultStage: dev
+  dev:
+    profile: slsdev
+    private: true
+    domain: 'dev-sns.z36.io'
+    streams:
+      transformations: 'arn:aws:dynamodb:us-east-2:182785331587:table/dev-transformations/stream/2017-12-06T12:54:12.377'
+  prod:
+    profile: slsprod
+    private: true
+    domain: 'sns.z36.io'
+    streams:
+      transformations:
+  private: ${self:custom.${self:provider.stage}.private}
+  customDomain:
+    basePath: ''
+    domainName: ${self:custom.${self:provider.stage}.domain}
+    stage: ${self:provider.stage}
+  bucket: ${self:provider.stage}-z36-bucket
+  streams: ${self:custom.${self:provider.stage}.streams}
+  topics:
+    created: 'arn:aws:sns:us-east-2:182785331587:${self:provider.stage}-created'
+
+package:
+  include:
+    - components/**/*.*
+    - functions/**/*.*
+    - services/**/*.*
+
+functions:
+  transformations:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: functions/transformations/function.handler
+    events:
+      - http:
+          path: /
+          method: get
+          private: ${self:custom.private}
+      - stream: ${self:custom.streams.transformations}
+  test:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: functions/test/function.handler
+    events:
+      - sns: ${self:provider.stage}-created

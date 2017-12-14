@@ -1,6 +1,6 @@
 const __basedir = process.cwd();
 
-let async = require('async');
+const async = require('async');
 let response = require(__basedir + '/services/response');
 
 module.exports.handler = (event, context, callback) => {

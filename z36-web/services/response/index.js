@@ -1,13 +1,13 @@
 const __basedir = process.cwd();
 
-let pug = require('pug');
-let _ = require('lodash');
-let i18n = require('../i18n');
+const pug = require('pug');
+const _ = require('lodash');
+const i18n = require('../i18n');
 
 module.exports = (params, next) => {
 
-    let l = _.get(params.event, 'queryStringParameters.l') || 'en';
-    let html = pug.renderFile(params.__dirname + '/template.pug', {
+    const l = _.get(params.event, 'queryStringParameters.l') || 'en';
+    const html = pug.renderFile(params.__dirname + '/template.pug', {
         basedir: __basedir,
         i18n: i18n(l)
     });

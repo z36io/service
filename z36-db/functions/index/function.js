@@ -8,6 +8,8 @@ const params = {
 
 module.exports.handler = (event, context, callback) => {
 
+  // TODO rest api
+
   dynamoDb.scan(params, (error, result) => {
     // handle potential errors
     if (error) {

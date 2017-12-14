@@ -1,7 +1,7 @@
 const __basedir = process.cwd();
 
 const AWS = require('aws-sdk');
-var lib = require(__basedir + '/components/template.js');
+const lib = require(__basedir + '/components/template.js');
 
 module.exports.handler = (event, context, callback) => {
   var response = {
