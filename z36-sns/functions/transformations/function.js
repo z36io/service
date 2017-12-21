@@ -7,7 +7,7 @@ let publish = require(__basedir + '/services/publish');
 module.exports.handler = (event, context, callback) => {
 
   async.waterfall([
-    next => topics(event, next),
+    (next) => topics(event, next),
     (topic, next) => {
       if (topic) {
         return publish(topic, next);

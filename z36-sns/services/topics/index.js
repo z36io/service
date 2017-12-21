@@ -36,7 +36,7 @@ module.exports = (event, callback) => {
 
     return callback({
         statusCode: 400,
-        message: 'No dynamodb data'
+        body: 'No dynamodb data'
     });
 
 };

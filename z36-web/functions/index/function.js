@@ -6,7 +6,7 @@ let response = require(__basedir + '/services/response');
 module.exports.handler = (event, context, callback) => {
 
   async.waterfall([
-    next => response({
+    (next) => response({
       __dirname: __dirname,
       event: event,
       context: context

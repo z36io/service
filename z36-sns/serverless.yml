@@ -30,6 +30,7 @@ provider:
       Resource: '*'
   
 custom:
+  id: 182785331587
   memorySize: 128
   timeout: 10
   defaultStage: dev
@@ -37,23 +38,20 @@ custom:
     profile: slsdev
     private: true
     domain: 'dev-sns.z36.io'
-    streams:
-      transformations: 'arn:aws:dynamodb:us-east-2:182785331587:table/dev-transformations/stream/2017-12-06T12:54:12.377'
   prod:
     profile: slsprod
     private: true
     domain: 'sns.z36.io'
-    streams:
-      transformations:
   private: ${self:custom.${self:provider.stage}.private}
   customDomain:
     basePath: ''
     domainName: ${self:custom.${self:provider.stage}.domain}
     stage: ${self:provider.stage}
   bucket: ${self:provider.stage}-z36-bucket
-  streams: ${self:custom.${self:provider.stage}.streams}
+  streams:
+    transformations: 'arn:aws:dynamodb:${self:provider.region}:${self:custom.id}:table/${self:provider.stage}-transformations/stream/2017-12-18T12:34:42.844'
   topics:
-    created: 'arn:aws:sns:us-east-2:182785331587:${self:provider.stage}-created'
+    created: 'arn:aws:sns:${self:provider.region}:${self:custom.id}:${self:provider.stage}-created'
 
 package:
   include:
@@ -62,15 +60,20 @@ package:
     - services/**/*.*
 
 functions:
-  transformations:
+  index:
     memorySize: ${self:custom.memorySize}
     timeout: ${self:custom.timeout}
-    handler: functions/transformations/function.handler
+    handler: functions/index/function.handler
     events:
       - http:
           path: /
           method: get
           private: ${self:custom.private}
+  transformations:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: functions/transformations/function.handler
+    events:
       - stream: ${self:custom.streams.transformations}
   test:
     memorySize: ${self:custom.memorySize}
