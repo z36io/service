@@ -11,4 +11,4 @@ Cache-Control: no-cache
   "KeyConditionExpression": "id = :id"
 }
 
-DOCS: [DynamoDB qu](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#query-property)
+DOCS: [DynamoDB query](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html#query-property)
