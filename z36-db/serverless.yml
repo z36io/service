@@ -61,7 +61,7 @@ functions:
     handler: functions/create/function.handler
     events:
       - http:
-          path: /{table}
+          path: /{table}/new
           method: post
           private: ${self:custom.private}
   get:
@@ -97,7 +97,7 @@ functions:
     handler: functions/query/function.handler
     events:
       - http:
-          path: /{table}
+          path: /{table}/query
           method: post
           private: ${self:custom.private}
 
