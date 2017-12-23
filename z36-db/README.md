@@ -13,7 +13,7 @@
     AttributeType: N 
   -
     AttributeName: status
-    AttributeType: M
+    AttributeType: N
   -
     AttributeName: from
     AttributeType: M

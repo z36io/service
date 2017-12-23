@@ -20,7 +20,7 @@ module.exports.handler = (event, context, callback) => {
           id: { S: uuidv1() },
           created: { N: timestamp },
           updated: { N: timestamp },
-          status: { M: { code: { N: "0" } } },
+          status: { N: "0" },
           from: _.get(params, 'body.from', { M: {} }),
           to: _.get(params, 'body.to', { M: {} }),
           meta: _.get(params, 'body.meta', { M: {} })

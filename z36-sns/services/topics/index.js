@@ -1,42 +1,49 @@
 const __basedir = process.cwd();
 
-const _ = require('lodash');
-
 // TODO: map topics
 const TOPICS = {
     '0': process.env.topic_created
 };
 
-module.exports = (event, callback) => {
+const EVENTS = {
+    INSERT: 'INSERT',
+    MODIFY: 'MODIFY',
+    REMOVE: 'REMOVE'
+};
 
-    let NewImage = _.get(event, 'Records[0].dynamodb.NewImage');
-    let OldImage = _.get(event, 'Records[0].dynamodb.OldImage');
+const _ = require('lodash');
+
+module.exports = (params, callback) => {
+
+    let eventName = _.get(params.record, 'eventName');
+    let OldImage, NewImage;
+
+    switch (eventName) {
+        case EVENTS.INSERT:
+            OldImage = _.get(params.record, 'dynamodb.OldImage', { status: { N: -1 } });
+            NewImage = _.get(params.record, 'dynamodb.NewImage');
+            break;
+        case EVENTS.MODIFY:
+            OldImage = _.get(params.record, 'dynamodb.OldImage');
+            NewImage = _.get(params.record, 'dynamodb.NewImage');
+            break;
+    }
 
     if (OldImage && NewImage) {
-
-        let newCode = _.get(NewImage, 'status.M.code.N');
-        let oldCode = _.get(OldImage, 'status.M.code.N');
+        let newCode = _.get(NewImage, 'status.N');
+        let oldCode = _.get(OldImage, 'status.N');
 
         if (oldCode && newCode && newCode !== oldCode) {
-
             let topicARN = TOPICS[newCode.toString()];
-
             if (topicARN) {
                 return callback(null, {
-                    Message: JSON.stringify({
-                        default: JSON.stringify(NewImage)
-                    }),
-                    MessageStructure: 'json',
+                    NewImage: NewImage,
                     TopicArn: topicARN
                 });
             }
         }
-        return callback(null, false);
     }
 
-    return callback({
-        statusCode: 400,
-        body: 'No dynamodb data'
-    });
+    return callback(null, {});
 
 };

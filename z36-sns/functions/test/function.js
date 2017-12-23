@@ -8,6 +8,5 @@ module.exports.handler = (event, context, callback) => {
   let msg = JSON.parse(Message);
 
   console.log('Message - ', msg);
-  console.log('Meta - ', msg.meta);
 
 };

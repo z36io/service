@@ -43,6 +43,7 @@ module.exports.handler = (event, context, callback) => {
         ExpressionAttributeNames: ExpressionAttributeNames,
         ExpressionAttributeValues: ExpressionAttributeValues,
         UpdateExpression: UpdateExpression,
+        ConditionExpression: 'attribute_exists(id)'
       });
     },
     (params, next) => dynamodb().updateItem(params, next)

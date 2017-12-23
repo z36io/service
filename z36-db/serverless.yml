@@ -25,7 +25,9 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tables.transformations}'
+      Resource: 
+        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tables.transformations}'
+        - 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.tables.transformations}/index/status-created-index'
   
 custom:
   memorySize: 128
@@ -112,13 +114,30 @@ resources:
           -
             AttributeName: id
             AttributeType: S
+          -
+            AttributeName: status
+            AttributeType: N
+          -
+            AttributeName: created
+            AttributeType: N
         KeySchema:
           -
             AttributeName: id
             KeyType: HASH
+        GlobalSecondaryIndexes: 
+          - IndexName: status-created-index
+            KeySchema: 
+              - AttributeName: status
+                KeyType: HASH
+              - AttributeName: created
+                KeyType: RANGE
+            Projection: 
+              ProjectionType: ALL
+            ProvisionedThroughput: 
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-        

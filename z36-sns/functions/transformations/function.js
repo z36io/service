@@ -1,25 +1,32 @@
 const __basedir = process.cwd();
 
+const _ = require('lodash');
 const async = require('async');
 let topics = require(__basedir + '/services/topics');
 let publish = require(__basedir + '/services/publish');
 
 module.exports.handler = (event, context, callback) => {
 
-  async.waterfall([
-    (next) => topics(event, next),
-    (topic, next) => {
-      if (topic) {
-        return publish(topic, next);
-      }
-      return next(null);
-    }
-  ], (error, result) => {
-    if (error) {
-      console.dir(event, { depth: null });
-      return callback(JSON.stringify(error), result);
-    }
-    return callback(null, result);
-  });
+  async.parallel(_.get(event, 'Records', [])
+    .map((record) => (call) => {
+      async.waterfall([
+        (next) => topics({ record: record }, next),
+        (topic, next) => {
+          if (!_.isEmpty(topic)) {
+            return publish(topic, next);
+          }
+          return next(null);
+        }
+      ], (error, result) => {
+        if (error) {
+          // TODO: set error for transformation state
+          console.dir(error, { depth: null });
+          return call(null, JSON.stringify(error));
+        }
+        return call(null, result);
+      });
+    }), (error, results) => {
+      callback(null, results);
+    });
 
 };

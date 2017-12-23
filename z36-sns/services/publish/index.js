@@ -4,13 +4,24 @@ const AWS = require('aws-sdk');
 const SNS = new AWS.SNS();
 
 module.exports = (params, callback) => {
-  SNS.publish(params, (error) => {
+
+  let msg = {
+    Message: JSON.stringify({
+      default: JSON.stringify(params.NewImage)
+    }),
+    MessageStructure: 'json',
+    TopicArn: params.TopicArn
+  };
+
+  SNS.publish(msg, (error) => {
     if (error) {
-      return callback(error, {
+      return callback({
         statusCode: 500,
-        body: JSON.stringify(error),
+        body: JSON.stringify(error)
       });
     }
+
+    console.log(`Published: ${params.NewImage.id.S} , to: ${params.TopicArn}`);
 
     return callback(null, {
       statusCode: 200,
