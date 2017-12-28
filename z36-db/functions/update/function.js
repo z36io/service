@@ -23,13 +23,16 @@ module.exports.handler = (event, context, callback) => {
       let UpdateExpression = 'SET #updated = :updated';
 
       _.each(params.body, (value, key) => {
-        let keyName = '#' + key.replace(/\./gim, '.#');
-        let keyValue = ':' + key.replace(/\./gim, '_');
-        key.split('.').map((k) => {
-          ExpressionAttributeNames[`#${k}`] = k.toString();
-        });
-        ExpressionAttributeValues[keyValue] = value;
-        UpdateExpression += `, ${keyName} = ${keyValue}`;
+        let keys = key.split('.');
+        if (params.TableShema(params.body)[keys[0]]) {
+          let keyName = '#' + key.replace(/\./gim, '.#');
+          let keyValue = ':' + key.replace(/\./gim, '_');
+          keys.map((k) => {
+            ExpressionAttributeNames[`#${k}`] = k.toString();
+          });
+          ExpressionAttributeValues[keyValue] = value;
+          UpdateExpression += `, ${keyName} = ${keyValue}`;
+        }
       });
 
       next(null, {

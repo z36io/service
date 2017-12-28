@@ -1,7 +1,9 @@
 const __basedir = process.cwd();
 
+const _ = require('lodash');
 const AWS = require('aws-sdk');
 const SNS = new AWS.SNS();
+const request = require(__basedir + '/services/request');
 
 module.exports = (params, callback) => {
 
@@ -22,6 +24,16 @@ module.exports = (params, callback) => {
     }
 
     console.log(`Published: ${params.NewImage.id.S} , to: ${params.TopicArn}`);
+    request({
+      table: 'logs',
+      id: 'new',
+      method: 'post',
+      body: {
+        transformation: _.get(params, 'NewImage.id'),
+        status: _.get(params, 'NewImage.status'),
+        meta: _.get(params, 'NewImage.meta')
+      }
+    });
 
     return callback(null, {
       statusCode: 200,

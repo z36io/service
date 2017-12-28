@@ -4,6 +4,7 @@ const _ = require('lodash');
 const async = require('async');
 let topics = require(__basedir + '/services/topics');
 let publish = require(__basedir + '/services/publish');
+const request = require(__basedir + '/services/request');
 
 module.exports.handler = (event, context, callback) => {
 
@@ -19,9 +20,18 @@ module.exports.handler = (event, context, callback) => {
         }
       ], (error, result) => {
         if (error) {
-          // TODO: set error for transformation state
           console.dir(error, { depth: null });
-          return call(null, JSON.stringify(error));
+          const errorStr = JSON.stringify(error);
+          request({
+            table: 'transformations',
+            id: _.get(record, 'dynamodb.NewImage.id.S'),
+            method: 'patch',
+            body: {
+              status: { N: "500" },
+              meta: { M: { error: {S: errorStr}} }
+            }
+          });
+          return call(null, errorStr);
         }
         return call(null, result);
       });

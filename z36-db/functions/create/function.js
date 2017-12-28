@@ -2,7 +2,6 @@ const __basedir = process.cwd();
 
 const _ = require('lodash');
 const async = require('async');
-const uuidv1 = require('uuid/v1');
 const dynamodb = require(__basedir + '/services/dynamodb');
 const tables = require(__basedir + '/services/tables');
 const bodyParser = require(__basedir + '/services/body-parser');
@@ -13,18 +12,16 @@ module.exports.handler = (event, context, callback) => {
     (next) => tables({ event: event, require: ['table'] }, next),
     (params, next) => bodyParser(params, next),
     (params, next) => {
-      const timestamp = Date.now().toString();
-      next(null, {
+      let Item = params.TableShema(params.body);
+      if (_.some(Item, _.isEmpty)) {
+        return next({
+          statusCode: 400,
+          body: 'Required properties not provided'
+        });
+      }
+      return next(null, {
         TableName: params.TableName,
-        Item: {
-          id: { S: uuidv1() },
-          created: { N: timestamp },
-          updated: { N: timestamp },
-          status: { N: "0" },
-          from: _.get(params, 'body.from', { M: {} }),
-          to: _.get(params, 'body.to', { M: {} }),
-          meta: _.get(params, 'body.meta', { M: {} })
-        }
+        Item: Item
       });
     },
     (params, next) => dynamodb().putItem(params, next)

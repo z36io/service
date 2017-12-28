@@ -9,9 +9,8 @@
 +  3 - order - Funds order was created
 +  4 - sent - Funds were sent
 +  9 - close - Closed
-+  5xx - error - Errors
-    +  501 - error - Error: Not enough money
-    +  Previous code prev: 3
++  500 - error - Error
+    +  Update item with error key: error - {body: 'Not enough money', status: 3}
 
 ## Topic rooms: <name_of_table>-<status_text>
 

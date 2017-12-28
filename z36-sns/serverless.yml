@@ -16,6 +16,8 @@ provider:
   environment:
     token: ${ssm:dev-token}
     topic_created: ${self:custom.topics.created}
+    db_endpoint: ${self:custom.db.endpoint}
+    db_token: ${self:custom.db.token}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -38,18 +40,28 @@ custom:
     profile: slsdev
     private: true
     domain: 'dev-sns.z36.io'
+    streams:
+      transformations: 'arn:aws:dynamodb:${self:provider.region}:${self:custom.id}:table/${self:provider.stage}-transformations/stream/2017-12-18T12:34:42.844' 
+    db:
+      endpoint: 'dev-db.z36.io'
+      token: ${ssm:dev-db-token}
   prod:
     profile: slsprod
     private: true
     domain: 'sns.z36.io'
+    streams:
+      transformations: '?' 
+    db:
+      endpoint: 'db.z36.io'
+      token: '?'
   private: ${self:custom.${self:provider.stage}.private}
   customDomain:
     basePath: ''
     domainName: ${self:custom.${self:provider.stage}.domain}
     stage: ${self:provider.stage}
   bucket: ${self:provider.stage}-z36-bucket
-  streams:
-    transformations: 'arn:aws:dynamodb:${self:provider.region}:${self:custom.id}:table/${self:provider.stage}-transformations/stream/2017-12-18T12:34:42.844'
+  streams: ${self:custom.${self:provider.stage}.streams}
+  db: ${self:custom.${self:provider.stage}.db}
   topics:
     created: 'arn:aws:sns:${self:provider.region}:${self:custom.id}:${self:provider.stage}-created'
 
