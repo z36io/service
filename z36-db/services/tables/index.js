@@ -8,8 +8,8 @@ const DEFAULT_SCHEMA = (body) => {
     const timestamp = Date.now().toString();
     let item = {
         id: _.get(body, 'id', { S: uuidv1() }),
-        created: { N: timestamp },
-        updated: { N: timestamp },
+        created: _.get(body, 'created', { N: timestamp }),
+        updated: _.get(body, 'updated', { N: timestamp }),
         meta: _.get(body, 'meta', { M: {} })
     };
     return (map) => _.merge(item, map);
