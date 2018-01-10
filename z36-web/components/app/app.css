@@ -10,12 +10,20 @@
     color: #000000;
 }
 
+.c--grey {
+    color: #0000008a;
+}
+
 .b-c {
     background-color: #2196F3;
 }
 
 .br-c {
-    border-color: #2196F3;  
+    border-color: #2196F3;
+}
+
+.d-b {
+    display: block;
 }
 
 .d-i-b {
@@ -34,12 +42,36 @@
     padding: 5px;
 }
 
+.p-10 {
+    padding: 10px;
+}
+
+.p-t-10 {
+    padding-top: 10px;
+}
+
+.p-r-10 {
+    padding-right: 10px;
+}
+
 .m-3 {
     margin: 3px;
 }
 
 .m-5 {
     margin: 5px;
+}
+
+.m-10 {
+    margin: 10px;
+}
+
+.m-t-10 {
+    margin-top: 10px;
+}
+
+.m-r-10 {
+    margin-right: 10px;
 }
 
 .f-s-14 {
@@ -56,4 +88,8 @@
 
 .f-s-30 {
     font-size: 30px;
+}
+
+.divider {
+    border-top: 1px solid #cccccc;
 }

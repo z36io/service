@@ -1,18 +1,54 @@
 extends /pages/landing/landing.pug
+include ./mixins.pug
 
 block __styles
     include style.css
 
 block __content
     div.index
-        
         div.slogan.f-s-30.t-a-c.b-c.c--f= i18n.slogan
-        
-        div.transformations(layout="row" layout-wrap)
-            
-            +card('Paypal', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/pp.png', '/transform?from=paypal&to=bitcoin')
-            +card('Bitcoin', 'https://s3.us-east-2.amazonaws.com/web-z36-bucket/images/btc.png')
-                
+        form.form(name='ctrl.form')     
+            div.step(layout='row' layout-align='center start')
+                div.m-r-10(flex='50')
+                    div.md-title.m-5.c--grey= `${i18n.from} *`
+                    md-radio-group(name='from' ng-model='ctrl.from' ng-change='ctrl.change();' required)
+                        each from in ctrl.from
+                            +index-radio-from(i18n[from], from)
+                div(flex='50')
+                    div.md-title.m-5.c--grey= `${i18n.to} *`
+                    md-radio-group(name='to' ng-model='ctrl.to' ng-change='ctrl.change();' required)
+                        each to in ctrl.to
+                            +index-radio-to(i18n[to], to)
+            div.step(ng-if='ctrl.from && ctrl.to')
+                div.block.md-whiteframe-3dp
+                    md-input-container(layout-fill)
+                        label= i18n.your_email_address
+                        input(name='email' type='email' ng-model='ctrl.email' required)
+                div.md-caption.m-5.c--grey= i18n.email_description
+            div.step(ng-if='ctrl.email && ctrl.form.email.$valid')
+                div.block.md-whiteframe-3dp
+                    md-input-container(layout-fill)
+                        label= i18n.your_crypto_address
+                        input(name='address' type='text' ng-model='ctrl.address' required)
+                div.md-caption.m-5.c--grey= i18n.address_description
+            div.step(ng-if='ctrl.address && ctrl.form.address.$valid' ng-init='ctrl.initConfig()')
+                div.md-title.m-5.c--grey= `${i18n.amount} *`
+                div.block.md-whiteframe-3dp
+                    md-slider-container(layout='row')
+                        md-slider.md-primary(flex='75' min='{{ctrl.config.min}}' max='{{ctrl.config.max}}' name='amount' ng-model='ctrl.amount' aria-label='amount' id='amount' md-discrete required)
+                        div(flex='25')
+                            md-input-container(layout-fill)
+                                label= i18n.euro
+                                input(flex type='number' min='{{ctrl.config.min}}' max='{{ctrl.config.min}}' ng-model='ctrl.amount' aria-label='amount' aria-controls='amount' required)
+                div.md-caption.m-5.c--grey= i18n.amount_description
+            div.step(ng-if='ctrl.amount && ctrl.form.amount.$valid' ng-init='ctrl.initPrice()')
+                div.block(layout='row' layout-align='center center')
+                    div(flex='75')
+                        div.md-title.m-5.c--grey= i18n.total
+                    div(flex='25')
+                        div.md-title.m-5.c--grey(ng-bind='ctrl.calc()')
+                div.md-caption.m-5.c--grey= i18n.total_description
+
 block __scripts
     include controller.js
     

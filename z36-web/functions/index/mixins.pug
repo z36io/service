@@ -1,0 +1,20 @@
+mixin divider(f)
+    md-divider.divider(flex=f)
+
+mixin index-radio(value, icon)
+    div.md-whiteframe-3dp(layout='row' layout-align='start center')
+        md-radio-button.radio.md-primary(flex value=value ng-disabled!=attributes.disabled) 
+            block
+        div.label.m-5.c--grey(ng-bind=`ctrl.label.${value}`)
+        
+mixin index-radio-from(text, value, icon)
+    +index-radio(value, icon)(disabled='false')
+        - var p = qs.to && qs.to !== value ? {from:value} : {from:value,to:undefined};
+        - var href = ctrl.href(qs, p);
+        a.d-i-b.p-5(href=href)= text
+    
+mixin index-radio-to(text, value, icon)
+    +index-radio(value, icon)(disabled=`ctrl.from == '${value}'`)
+        - var p =  qs.from && qs.from !== value ? {to:value} : {from:undefined,to:value};
+        - var href = ctrl.href(qs, p);
+        a.d-i-b.p-5(href=href)= text

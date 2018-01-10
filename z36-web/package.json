@@ -10,6 +10,12 @@
   "dependencies": {
     "async": "^2.6.0",
     "lodash": "^4.17.4",
-    "pug": "^2.0.0-rc.4"
+    "pug": "^2.0.0-rc.4",
+    "pug-runtime": "^2.0.3",
+    "serverless-plugin-scripts": "^1.0.2",
+    "urijs": "^1.19.0"
+  },
+  "scripts": {
+    "compile": "node compile.js"
   }
 }

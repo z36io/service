@@ -1,5 +1,4 @@
-z36.controller('controller', function() {
-
+window.z36.controller('controller', function() {
     var ctrl = this;
 
     ctrl.cardAction = function(path) {

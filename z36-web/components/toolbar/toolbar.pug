@@ -1,5 +1,12 @@
 mixin toolbar
     md-toolbar
         div.md-toolbar-tools(layout='row' layout-align='end center')
-            md-button Home
-    
+            md-button(href='/') Home
+            div.language
+                md-menu
+                    md-button.md-icon-button(aria-label='Language' ng-click='$mdMenu.open($event)')
+                        md-icon.material-icons.icon language
+                    md-menu-content
+                        each l in ['en', 'ru']
+                            md-menu-item
+                                md-button(href=`/?l=${l}`)= l.toUpperCase()

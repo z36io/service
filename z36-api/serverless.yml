@@ -51,3 +51,13 @@ functions:
           path: /
           method: get
           private: ${self:custom.private}
+  public:
+    memorySize: ${self:custom.memorySize}
+    timeout: ${self:custom.timeout}
+    handler: functions/public/function.handler
+    events:
+      - http:
+          path: /public
+          method: get
+          cors: true
+          private: false

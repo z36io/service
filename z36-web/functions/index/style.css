@@ -3,6 +3,24 @@
     margin: 10px 0;
 }
 
-.index .transformations {
-    padding: 10px;
+.index .form {
+    margin: 0 10px;
+}
+
+.index .step {
+    padding: 10px 0;
+}
+
+.index .block {
+    padding: 25px 10px 0;
+}
+
+.index .radio {
+    height: 50px;
+    line-height: 40px;
+    margin-bottom: 0;
+}
+
+.index .radio>.md-ink-ripple {
+    left: 5px;
 }

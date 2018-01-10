@@ -2,6 +2,7 @@ service: z36-web
 
 plugins:
   - serverless-domain-manager
+  - serverless-plugin-scripts
   
 provider:
   name: aws
@@ -14,6 +15,7 @@ provider:
   apiKeys: ${self:custom.${self:provider.stage}.apiKeys}
   environment:
     token: ${ssm:dev-token}
+    api: ${self:custom.${self:provider.stage}.api}
   
 custom:
   memorySize: 128
@@ -25,18 +27,26 @@ custom:
       - dev-web
     private: true
     domain: 'dev.z36.io'
+    api: 'dev-api.z36.io'
   prod:
     profile: slsprod
     apiKeys:
       - prod-web
     private: false
     domain: 'z36.io'
+    api: 'api.z36.io'
   private: ${self:custom.${self:provider.stage}.private}
   customDomain:
     basePath: ''
     domainName: ${self:custom.${self:provider.stage}.domain}
     stage: ${self:provider.stage}
   bucket: ${self:provider.stage}-z36-bucket
+  scripts:
+    commands:
+      compile: npm run compile
+    hooks:
+      'deploy:initialize': sls compile
+      'deploy:function:initialize': sls compile
   
 package:
   include:
